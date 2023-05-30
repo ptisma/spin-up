@@ -34,7 +34,15 @@ services:
     build:
       context: ./grafana
       dockerfile: Dockerfile
+  
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
 
 volumes:
   prometheus_data:
   grafana-storage:
+  dbdata6:

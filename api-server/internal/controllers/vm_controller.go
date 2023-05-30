@@ -11,6 +11,10 @@ type VmController struct {
 	interfaces.IVMService
 }
 
+func (c *VmController) CreateContainerBuidJob(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func (c *VmController) GetHealth(w http.ResponseWriter, r *http.Request) {
 	resp := make(map[string]string)
 	resp["message"] = "Status OK"

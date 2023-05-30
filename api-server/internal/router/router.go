@@ -2,7 +2,6 @@ package router
 
 import (
 	"api-server/internal/infrastructures/application"
-	"api-server/internal/router/middlewares"
 	"api-server/internal/serviceContainer"
 	"sync"
 
@@ -23,14 +22,16 @@ func (router *router) InitRouter() *mux.Router {
 	serviceContainer := serviceContainer.GetServiceContainer(router.app)
 
 	vmController := serviceContainer.InjectVMController()
+	dockerController := serviceContainer.InjectDockerController()
 
 	mux := mux.NewRouter()
 
-	mux.Use(middlewares.PrometheusMiddleware)
+	// mux.Use(middlewares.Auth0Middleware, middlewares.PrometheusMiddleware)
 
 	mux.Path("/prometheus").Handler(promhttp.Handler())
 
 	mux.HandleFunc("/health", vmController.GetHealth).Methods("GET")
+	mux.HandleFunc("/docker-img-build", dockerController.CreateDockerBuildJob).Methods("POST")
 
 	return mux
 }
